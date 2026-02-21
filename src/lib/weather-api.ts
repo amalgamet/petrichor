@@ -10,7 +10,7 @@ import type {
   CurrentConditionsData,
 } from "./types";
 
-const USER_AGENT = "(petrichor, contact@example.com)";
+const USER_AGENT = "petrichor/1.0";
 
 async function weatherFetch<T>(url: string): Promise<T> {
   const res = await fetch(url, {

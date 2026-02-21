@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import type { GeocodingResult } from "@/lib/types";
+import { NextRequest, NextResponse } from 'next/server';
+import type { GeocodingResult } from '@/lib/types';
 
 interface NominatimResult {
   lat: string;
@@ -8,28 +8,25 @@ interface NominatimResult {
 }
 
 export async function GET(request: NextRequest) {
-  const q = request.nextUrl.searchParams.get("q");
+  const q = request.nextUrl.searchParams.get('q');
   if (!q || q.trim().length < 2) {
     return NextResponse.json([], { status: 200 });
   }
 
-  const url = new URL("https://nominatim.openstreetmap.org/search");
-  url.searchParams.set("q", q.trim());
-  url.searchParams.set("format", "json");
-  url.searchParams.set("limit", "5");
-  url.searchParams.set("countrycodes", "us");
+  const url = new URL('https://nominatim.openstreetmap.org/search');
+  url.searchParams.set('q', q.trim());
+  url.searchParams.set('format', 'json');
+  url.searchParams.set('limit', '5');
+  url.searchParams.set('countrycodes', 'us');
 
   const res = await fetch(url.toString(), {
     headers: {
-      "User-Agent": "(petrichor, contact@example.com)",
+      'User-Agent': 'petrichor/1.0',
     },
   });
 
   if (!res.ok) {
-    return NextResponse.json(
-      { error: "Geocoding service unavailable" },
-      { status: 502 },
-    );
+    return NextResponse.json({ error: res.statusText }, { status: res.status });
   }
 
   const raw: NominatimResult[] = await res.json();
