@@ -46,7 +46,7 @@ export async function DailyForecast({ forecastUrl }: DailyForecastProps) {
                 </p>
                 {period.probabilityOfPrecipitation.value !== null &&
                   period.probabilityOfPrecipitation.value > 0 && (
-                    <span className="text-xs text-blue-500">
+                    <span className="text-xs text-muted-foreground italic">
                       {period.probabilityOfPrecipitation.value}% chance of
                       precipitation
                     </span>
