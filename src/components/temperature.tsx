@@ -1,7 +1,7 @@
 "use client";
 
 import { useUnit } from "@/components/unit-toggle";
-import { celsiusToFahrenheit, formatTemperature } from "@/lib/utils";
+import { celsiusToFahrenheit, fahrenheitToCelsius, formatTemperature } from "@/lib/utils";
 
 interface TemperatureProps {
   /** Temperature in Celsius (weather.gov observation units) */
@@ -30,7 +30,7 @@ export function ForecastTemperature({ fahrenheit, className }: ForecastTemperatu
   const { unit } = useUnit();
 
   const displayValue =
-    unit === "C" ? Math.round((fahrenheit - 32) * 5 / 9) : fahrenheit;
+    unit === "C" ? fahrenheitToCelsius(fahrenheit) : fahrenheit;
 
   return <span className={className}>{formatTemperature(displayValue, unit)}</span>;
 }
