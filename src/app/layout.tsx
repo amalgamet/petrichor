@@ -14,7 +14,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Petrichor — US Weather",
+  title: {
+    default: "Petrichor \u2014 US Weather",
+    template: "%s | Petrichor",
+  },
   description: "Weather conditions and forecasts for US locations, powered by weather.gov",
 };
 

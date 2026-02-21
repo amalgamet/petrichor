@@ -9,7 +9,7 @@ import { HourlyForecast } from "@/components/hourly-forecast";
 import { DailyForecast } from "@/components/daily-forecast";
 import { UnitToggle } from "@/components/unit-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface WeatherPageProps {
   searchParams: Promise<{ lat?: string; lon?: string }>;
@@ -23,17 +23,17 @@ export async function generateMetadata({
   const lon = parseFloat(params.lon ?? "");
 
   if (!isValidCoordinate(lat, lon)) {
-    return { title: "Weather | Petrichor" };
+    return { title: "Weather" };
   }
 
   try {
     const point = await getPointData(lat, lon);
     return {
-      title: `${point.city}, ${point.state} Weather | Petrichor`,
+      title: `${point.city}, ${point.state} Weather`,
       description: `Current weather conditions and forecast for ${point.city}, ${point.state}`,
     };
   } catch {
-    return { title: "Weather | Petrichor" };
+    return { title: "Weather" };
   }
 }
 
@@ -80,7 +80,7 @@ function WeatherSkeleton({ title }: { title: string }) {
   return (
     <Card>
       <CardHeader>
-        <Skeleton className="h-6 w-40" />
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <Skeleton className="h-20 w-full" />

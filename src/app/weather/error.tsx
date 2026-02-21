@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -23,7 +24,7 @@ export default function WeatherError({
           <div className="mt-4 flex justify-center gap-3">
             <Button onClick={reset}>Try again</Button>
             <Button variant="outline" asChild>
-              <a href="/">Search another location</a>
+              <Link href="/">Search another location</Link>
             </Button>
           </div>
         </CardContent>
