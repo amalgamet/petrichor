@@ -1,9 +1,13 @@
 import { LocationSearch } from "@/components/location-search";
 import { GeolocationButton } from "@/components/geolocation-button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-8 px-4">
+    <div className="relative flex min-h-screen flex-col items-center justify-center gap-8 px-4">
+      <div className="absolute right-4 top-4">
+        <ThemeToggle />
+      </div>
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight">Petrichor</h1>
         <p className="mt-2 text-muted-foreground">
