@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getPointData } from "@/lib/weather-api";
-import { isValidCoordinate, roundCoordinate } from "@/lib/utils";
+import { isValidCoordinate } from "@/lib/utils";
 import { CurrentConditions } from "@/components/current-conditions";
 import { HourlyForecast } from "@/components/hourly-forecast";
 import { DailyForecast } from "@/components/daily-forecast";
@@ -27,10 +27,7 @@ export async function generateMetadata({
   }
 
   try {
-    const point = await getPointData(
-      roundCoordinate(lat),
-      roundCoordinate(lon),
-    );
+    const point = await getPointData(lat, lon);
     return {
       title: `${point.city}, ${point.state} Weather | Petrichor`,
       description: `Current weather conditions and forecast for ${point.city}, ${point.state}`,
@@ -49,7 +46,7 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
     redirect("/");
   }
 
-  const point = await getPointData(roundCoordinate(lat), roundCoordinate(lon));
+  const point = await getPointData(lat, lon);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">

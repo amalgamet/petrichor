@@ -53,7 +53,7 @@ export async function getForecast(
 ): Promise<ForecastPeriod[]> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("forecast");
+  cacheTag(`forecast-${forecastUrl}`);
 
   const data = await weatherFetch<ForecastResponse>(forecastUrl);
   return data.properties.periods;
@@ -64,7 +64,7 @@ export async function getHourlyForecast(
 ): Promise<ForecastPeriod[]> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("forecast-hourly");
+  cacheTag(`forecast-hourly-${forecastHourlyUrl}`);
 
   const data = await weatherFetch<ForecastResponse>(forecastHourlyUrl);
   return data.properties.periods;
@@ -75,7 +75,7 @@ export async function getCurrentConditions(
 ): Promise<CurrentConditionsData> {
   "use cache";
   cacheLife("observations");
-  cacheTag("current-conditions");
+  cacheTag(`current-conditions-${stationsUrl}`);
 
   const stations = await weatherFetch<StationsResponse>(stationsUrl);
   const stationId = stations.features[0]?.properties.stationIdentifier;
