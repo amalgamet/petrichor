@@ -1,4 +1,5 @@
 import { preconnect } from 'react-dom';
+import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata, Viewport } from 'next';
 import { DM_Sans, Instrument_Sans } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
@@ -38,22 +39,24 @@ export default function RootLayout({
 }>) {
   preconnect('https://api.weather.gov');
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${dmSans.variable} ${instrumentSans.variable} min-h-screen bg-background font-sans antialiased`}
-      >
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:shadow-lg"
+    <ClerkProvider appearance={{ cssLayerName: 'clerk' }}>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${dmSans.variable} ${instrumentSans.variable} min-h-screen bg-background font-sans antialiased`}
         >
-          Skip to content
-        </a>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <UnitProvider>
-            <main id="main-content">{children}</main>
-          </UnitProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:shadow-lg"
+          >
+            Skip to content
+          </a>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <UnitProvider>
+              <main id="main-content">{children}</main>
+            </UnitProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
