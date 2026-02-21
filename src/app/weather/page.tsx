@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { UserButton } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -65,6 +66,7 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
         <div className="flex shrink-0 items-center gap-2">
           <ThemeToggle />
           <UnitToggle />
+          <UserButton />
         </div>
       </div>
       <div className="h-px bg-border" />

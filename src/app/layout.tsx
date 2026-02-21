@@ -27,8 +27,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f7f5f3' },
-    { media: '(prefers-color-scheme: dark)', color: '#1c1b19' },
+    { media: '(prefers-color-scheme: light)', color: '#f5f0ea' },
+    { media: '(prefers-color-scheme: dark)', color: '#2d2419' },
   ],
 };
 
@@ -38,8 +38,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   preconnect('https://api.weather.gov');
+
+
   return (
-    <ClerkProvider appearance={{ cssLayerName: 'clerk' }}>
+    <ClerkProvider
+      appearance={{
+        cssLayerName: 'clerk',
+        variables: { colorPrimary: '#8d6850' },
+      }}
+    >
       <html lang="en" suppressHydrationWarning>
         <body
           className={`${dmSans.variable} ${instrumentSans.variable} min-h-screen bg-background font-sans antialiased`}

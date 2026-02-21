@@ -1,3 +1,4 @@
+import { UserButton } from '@clerk/nextjs';
 import { LocationSearch } from '@/components/location-search';
 import { GeolocationButton } from '@/components/geolocation-button';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -7,6 +8,7 @@ export default function Home() {
     <div className="relative flex min-h-screen overflow-hidden">
       <div className="absolute right-4 top-4 flex items-center gap-2">
         <ThemeToggle />
+        <UserButton />
       </div>
       <div className="relative z-10 flex flex-1 flex-col justify-end px-8 pb-16 sm:px-12 md:px-20">
         <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
