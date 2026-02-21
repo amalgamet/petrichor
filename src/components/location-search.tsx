@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState, useRef, useCallback, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import type { GeocodingResult } from "@/lib/types";
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import type { GeocodingResult } from '@/lib/types';
 
 export function LocationSearch() {
   const router = useRouter();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState<GeocodingResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -19,31 +19,26 @@ export function LocationSearch() {
     };
   }, []);
 
-  const search = useCallback(
-    async (q: string) => {
-      if (q.trim().length < 2) {
-        setResults([]);
-        setOpen(false);
-        return;
-      }
-      setLoading(true);
-      try {
-        const res = await fetch(
-          `/api/geocode?q=${encodeURIComponent(q.trim())}`,
-        );
-        if (!res.ok) throw new Error("Geocode failed");
-        const data: GeocodingResult[] = await res.json();
-        setResults(data);
-        setOpen(data.length > 0);
-      } catch {
-        setResults([]);
-        setOpen(false);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [],
-  );
+  const search = useCallback(async (q: string) => {
+    if (q.trim().length < 2) {
+      setResults([]);
+      setOpen(false);
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/geocode?q=${encodeURIComponent(q.trim())}`);
+      if (!res.ok) throw new Error('Geocode failed');
+      const data: GeocodingResult[] = await res.json();
+      setResults(data);
+      setOpen(data.length > 0);
+    } catch {
+      setResults([]);
+      setOpen(false);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const handleChange = (value: string) => {
     setQuery(value);

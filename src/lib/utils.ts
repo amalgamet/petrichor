@@ -1,21 +1,21 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
-import type { TemperatureUnit } from "./types"
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import type { TemperatureUnit } from './types';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 // --- Temperature conversion ---
 
 export function celsiusToFahrenheit(c: number | null): number | null {
   if (c === null) return null;
-  return Math.round(c * 9 / 5 + 32);
+  return Math.round((c * 9) / 5 + 32);
 }
 
 export function fahrenheitToCelsius(f: number | null): number | null {
   if (f === null) return null;
-  return Math.round((f - 32) * 5 / 9);
+  return Math.round(((f - 32) * 5) / 9);
 }
 
 // --- Unit conversion ---
@@ -32,16 +32,28 @@ export function metersToMiles(m: number | null): number | null {
 
 export function pascalsToInHg(pa: number | null): number | null {
   if (pa === null) return null;
-  return pa * 0.00029530;
+  return pa * 0.0002953;
 }
 
 // --- Wind direction ---
 
 const COMPASS_DIRECTIONS = [
-  "N", "NNE", "NE", "ENE",
-  "E", "ESE", "SE", "SSE",
-  "S", "SSW", "SW", "WSW",
-  "W", "WNW", "NW", "NNW",
+  'N',
+  'NNE',
+  'NE',
+  'ENE',
+  'E',
+  'ESE',
+  'SE',
+  'SSE',
+  'S',
+  'SSW',
+  'SW',
+  'WSW',
+  'W',
+  'WNW',
+  'NW',
+  'NNW',
 ] as const;
 
 export function degreesToCompass(deg: number | null): string | null {

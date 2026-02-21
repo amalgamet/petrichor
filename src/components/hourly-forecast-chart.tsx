@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Area,
@@ -7,19 +7,19 @@ import {
   Line,
   XAxis,
   YAxis,
-} from "recharts";
+} from 'recharts';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { useUnit } from "@/components/unit-toggle";
-import { formatTemperature } from "@/lib/utils";
+} from '@/components/ui/chart';
+import { useUnit } from '@/components/unit-toggle';
+import { formatTemperature } from '@/lib/utils';
 import {
   type HourlyChartPoint,
   hourlyChartConfig,
   convertTemperature,
-} from "@/lib/forecast-charts";
+} from '@/lib/forecast-charts';
 
 interface HourlyForecastChartProps {
   data: HourlyChartPoint[];
@@ -64,7 +64,8 @@ export function HourlyForecastChart({ data }: HourlyForecastChartProps) {
           content={
             <ChartTooltipContent
               formatter={(value, name) => {
-                if (name === "temperature") return formatTemperature(value as number, unit);
+                if (name === 'temperature')
+                  return formatTemperature(value as number, unit);
                 return `${value}%`;
               }}
             />

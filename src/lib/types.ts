@@ -50,7 +50,7 @@ export interface ForecastPeriod {
   endTime: string;
   isDaytime: boolean;
   temperature: number;
-  temperatureUnit: "F" | "C";
+  temperatureUnit: 'F' | 'C';
   temperatureTrend: string | null;
   probabilityOfPrecipitation: Measurement;
   windSpeed: string;
@@ -126,4 +126,4 @@ export interface GeocodingResult {
 
 // --- Unit preference ---
 
-export type TemperatureUnit = "F" | "C";
+export type TemperatureUnit = 'F' | 'C';

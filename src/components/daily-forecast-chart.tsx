@@ -1,20 +1,27 @@
-"use client";
+'use client';
 
-import { Bar, CartesianGrid, ComposedChart, Line, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  CartesianGrid,
+  ComposedChart,
+  Line,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
-} from "@/components/ui/chart";
-import { useUnit } from "@/components/unit-toggle";
-import { formatTemperature } from "@/lib/utils";
+} from '@/components/ui/chart';
+import { useUnit } from '@/components/unit-toggle';
+import { formatTemperature } from '@/lib/utils';
 import {
   type DailyChartPoint,
   dailyChartConfig,
   convertTemperature,
-} from "@/lib/forecast-charts";
+} from '@/lib/forecast-charts';
 
 interface DailyForecastChartProps {
   data: DailyChartPoint[];
@@ -33,12 +40,7 @@ export function DailyForecastChart({ data }: DailyForecastChartProps) {
     <ChartContainer config={dailyChartConfig} className="h-[250px] w-full">
       <ComposedChart data={chartData} accessibilityLayer>
         <CartesianGrid vertical={false} strokeDasharray="3 3" />
-        <XAxis
-          dataKey="day"
-          tickLine={false}
-          axisLine={false}
-          tickMargin={8}
-        />
+        <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
         <YAxis
           yAxisId="temp"
           tickLine={false}
@@ -59,7 +61,8 @@ export function DailyForecastChart({ data }: DailyForecastChartProps) {
           content={
             <ChartTooltipContent
               formatter={(value, name) => {
-                if (name === "high" || name === "low") return formatTemperature(value as number, unit);
+                if (name === 'high' || name === 'low')
+                  return formatTemperature(value as number, unit);
                 return `${value}%`;
               }}
             />

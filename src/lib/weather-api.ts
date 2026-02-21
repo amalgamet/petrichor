@@ -1,5 +1,5 @@
-import { cacheLife, cacheTag } from "next/cache";
-import { roundCoordinate } from "./utils";
+import { cacheLife, cacheTag } from 'next/cache';
+import { roundCoordinate } from './utils';
 import type {
   PointsResponse,
   PointData,
@@ -8,13 +8,13 @@ import type {
   StationsResponse,
   ObservationResponse,
   CurrentConditionsData,
-} from "./types";
+} from './types';
 
-const USER_AGENT = "petrichor/1.0";
+const USER_AGENT = 'petrichor/1.0';
 
 async function weatherFetch<T>(url: string): Promise<T> {
   const res = await fetch(url, {
-    headers: { "User-Agent": USER_AGENT },
+    headers: { 'User-Agent': USER_AGENT },
   });
   if (!res.ok) {
     throw new Error(`weather.gov ${res.status}: ${url}`);
@@ -26,8 +26,8 @@ export async function getPointData(
   lat: number,
   lon: number,
 ): Promise<PointData> {
-  "use cache";
-  cacheLife("hours");
+  'use cache';
+  cacheLife('hours');
 
   const rlat = roundCoordinate(lat);
   const rlon = roundCoordinate(lon);
@@ -51,8 +51,8 @@ export async function getPointData(
 export async function getForecast(
   forecastUrl: string,
 ): Promise<ForecastPeriod[]> {
-  "use cache";
-  cacheLife("minutes");
+  'use cache';
+  cacheLife('minutes');
   cacheTag(`forecast-${forecastUrl}`);
 
   const data = await weatherFetch<ForecastResponse>(forecastUrl);
@@ -62,8 +62,8 @@ export async function getForecast(
 export async function getHourlyForecast(
   forecastHourlyUrl: string,
 ): Promise<ForecastPeriod[]> {
-  "use cache";
-  cacheLife("minutes");
+  'use cache';
+  cacheLife('minutes');
   cacheTag(`forecast-hourly-${forecastHourlyUrl}`);
 
   const data = await weatherFetch<ForecastResponse>(forecastHourlyUrl);
@@ -73,14 +73,14 @@ export async function getHourlyForecast(
 export async function getCurrentConditions(
   stationsUrl: string,
 ): Promise<CurrentConditionsData> {
-  "use cache";
-  cacheLife("observations");
+  'use cache';
+  cacheLife('observations');
   cacheTag(`current-conditions-${stationsUrl}`);
 
   const stations = await weatherFetch<StationsResponse>(stationsUrl);
   const stationId = stations.features[0]?.properties.stationIdentifier;
   if (!stationId) {
-    throw new Error("No observation stations found");
+    throw new Error('No observation stations found');
   }
 
   const obs = await weatherFetch<ObservationResponse>(

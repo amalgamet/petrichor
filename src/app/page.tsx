@@ -1,6 +1,6 @@
-import { LocationSearch } from "@/components/location-search";
-import { GeolocationButton } from "@/components/geolocation-button";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { LocationSearch } from '@/components/location-search';
+import { GeolocationButton } from '@/components/geolocation-button';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function Home() {
   return (

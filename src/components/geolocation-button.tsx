@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { roundCoordinate } from "@/lib/utils";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { roundCoordinate } from '@/lib/utils';
 
 export function GeolocationButton() {
   const router = useRouter();
@@ -12,7 +12,7 @@ export function GeolocationButton() {
 
   const handleClick = () => {
     if (!navigator.geolocation) {
-      setError("Geolocation is not supported by your browser");
+      setError('Geolocation is not supported by your browser');
       return;
     }
 
@@ -29,16 +29,16 @@ export function GeolocationButton() {
         setLoading(false);
         switch (err.code) {
           case err.PERMISSION_DENIED:
-            setError("Location access was denied");
+            setError('Location access was denied');
             break;
           case err.POSITION_UNAVAILABLE:
-            setError("Location information is unavailable");
+            setError('Location information is unavailable');
             break;
           case err.TIMEOUT:
-            setError("Location request timed out");
+            setError('Location request timed out');
             break;
           default:
-            setError("An unknown error occurred");
+            setError('An unknown error occurred');
         }
       },
       { enableHighAccuracy: false, timeout: 10000 },
@@ -54,7 +54,7 @@ export function GeolocationButton() {
             Locating...
           </>
         ) : (
-          "Use my location"
+          'Use my location'
         )}
       </Button>
       {error && <p className="text-sm text-destructive">{error}</p>}

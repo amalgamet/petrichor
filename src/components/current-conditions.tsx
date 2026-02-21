@@ -1,14 +1,21 @@
-import Image from "next/image";
-import { getCurrentConditions } from "@/lib/weather-api";
-import { degreesToCompass, kmhToMph, metersToMiles, pascalsToInHg } from "@/lib/utils";
-import { Temperature } from "@/components/temperature";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from 'next/image';
+import { getCurrentConditions } from '@/lib/weather-api';
+import {
+  degreesToCompass,
+  kmhToMph,
+  metersToMiles,
+  pascalsToInHg,
+} from '@/lib/utils';
+import { Temperature } from '@/components/temperature';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface CurrentConditionsProps {
   stationsUrl: string;
 }
 
-export async function CurrentConditions({ stationsUrl }: CurrentConditionsProps) {
+export async function CurrentConditions({
+  stationsUrl,
+}: CurrentConditionsProps) {
   const conditions = await getCurrentConditions(stationsUrl);
 
   const windDir = degreesToCompass(conditions.windDirectionDeg);
@@ -37,18 +44,26 @@ export async function CurrentConditions({ stationsUrl }: CurrentConditionsProps)
             className="shrink-0"
           />
           <div>
-            <Temperature celsius={conditions.temperatureC} className="text-5xl font-bold" />
-            <p className="mt-1 text-lg text-muted-foreground">{conditions.description}</p>
+            <Temperature
+              celsius={conditions.temperatureC}
+              className="text-5xl font-bold"
+            />
+            <p className="mt-1 text-lg text-muted-foreground">
+              {conditions.description}
+            </p>
           </div>
         </div>
         <div className="mt-6 grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
           {conditions.humidity !== null && (
-            <Detail label="Humidity" value={`${Math.round(conditions.humidity)}%`} />
+            <Detail
+              label="Humidity"
+              value={`${Math.round(conditions.humidity)}%`}
+            />
           )}
           {windMph !== null && (
             <Detail
               label="Wind"
-              value={`${windDir ?? ""} ${Math.round(windMph)} mph${gustMph !== null ? ` (gusts ${Math.round(gustMph)})` : ""}`}
+              value={`${windDir ?? ''} ${Math.round(windMph)} mph${gustMph !== null ? ` (gusts ${Math.round(gustMph)})` : ''}`}
             />
           )}
           {conditions.dewpointC !== null && (
@@ -63,7 +78,10 @@ export async function CurrentConditions({ stationsUrl }: CurrentConditionsProps)
             <Detail label="Visibility" value={`${visMiles.toFixed(1)} mi`} />
           )}
           {pressureInHg !== null && (
-            <Detail label="Pressure" value={`${pressureInHg.toFixed(2)} inHg`} />
+            <Detail
+              label="Pressure"
+              value={`${pressureInHg.toFixed(2)} inHg`}
+            />
           )}
           {conditions.windChillC !== null && (
             <div>

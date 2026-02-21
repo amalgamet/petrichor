@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { getForecast } from "@/lib/weather-api";
-import { toDailyChartData } from "@/lib/forecast-charts";
-import { ForecastTemperature } from "@/components/temperature";
-import { DailyForecastChart } from "@/components/daily-forecast-chart";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from 'next/image';
+import { getForecast } from '@/lib/weather-api';
+import { toDailyChartData } from '@/lib/forecast-charts';
+import { ForecastTemperature } from '@/components/temperature';
+import { DailyForecastChart } from '@/components/daily-forecast-chart';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface DailyForecastProps {
   forecastUrl: string;
@@ -47,7 +47,8 @@ export async function DailyForecast({ forecastUrl }: DailyForecastProps) {
                 {period.probabilityOfPrecipitation.value !== null &&
                   period.probabilityOfPrecipitation.value > 0 && (
                     <span className="text-xs text-blue-500">
-                      {period.probabilityOfPrecipitation.value}% chance of precipitation
+                      {period.probabilityOfPrecipitation.value}% chance of
+                      precipitation
                     </span>
                   )}
               </div>

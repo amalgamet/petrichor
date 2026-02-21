@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default function WeatherLoading() {
   return (
@@ -9,7 +9,7 @@ export default function WeatherLoading() {
         <Skeleton className="h-8 w-48" />
       </div>
       <div className="flex flex-col gap-6">
-        {["Current Conditions", "Hourly Forecast", "7-Day Forecast"].map(
+        {['Current Conditions', 'Hourly Forecast', '7-Day Forecast'].map(
           (title) => (
             <Card key={title}>
               <CardHeader>

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function WeatherError({
   error,
@@ -17,8 +17,8 @@ export default function WeatherError({
         <CardContent className="pt-6 text-center">
           <h2 className="text-xl font-semibold">Something went wrong</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            {error.message.includes("weather.gov")
-              ? "The weather service is temporarily unavailable. Please try again."
+            {error.message.includes('weather.gov')
+              ? 'The weather service is temporarily unavailable. Please try again.'
               : "We couldn't load the weather data for this location."}
           </p>
           <div className="mt-4 flex justify-center gap-3">

@@ -1,16 +1,16 @@
-import { Suspense } from "react";
-import type { Metadata } from "next";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { getPointData } from "@/lib/weather-api";
-import { isValidCoordinate } from "@/lib/utils";
-import { CurrentConditions } from "@/components/current-conditions";
-import { HourlyForecast } from "@/components/hourly-forecast";
-import { DailyForecast } from "@/components/daily-forecast";
-import { UnitToggle } from "@/components/unit-toggle";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Suspense } from 'react';
+import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import { getPointData } from '@/lib/weather-api';
+import { isValidCoordinate } from '@/lib/utils';
+import { CurrentConditions } from '@/components/current-conditions';
+import { HourlyForecast } from '@/components/hourly-forecast';
+import { DailyForecast } from '@/components/daily-forecast';
+import { UnitToggle } from '@/components/unit-toggle';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface WeatherPageProps {
   searchParams: Promise<{ lat?: string; lon?: string }>;
@@ -20,11 +20,11 @@ export async function generateMetadata({
   searchParams,
 }: WeatherPageProps): Promise<Metadata> {
   const params = await searchParams;
-  const lat = parseFloat(params.lat ?? "");
-  const lon = parseFloat(params.lon ?? "");
+  const lat = parseFloat(params.lat ?? '');
+  const lon = parseFloat(params.lon ?? '');
 
   if (!isValidCoordinate(lat, lon)) {
-    return { title: "Weather" };
+    return { title: 'Weather' };
   }
 
   try {
@@ -34,17 +34,17 @@ export async function generateMetadata({
       description: `Current weather conditions and forecast for ${point.city}, ${point.state}`,
     };
   } catch {
-    return { title: "Weather" };
+    return { title: 'Weather' };
   }
 }
 
 export default async function WeatherPage({ searchParams }: WeatherPageProps) {
   const params = await searchParams;
-  const lat = parseFloat(params.lat ?? "");
-  const lon = parseFloat(params.lon ?? "");
+  const lat = parseFloat(params.lat ?? '');
+  const lon = parseFloat(params.lon ?? '');
 
   if (!isValidCoordinate(lat, lon)) {
-    redirect("/");
+    redirect('/');
   }
 
   const point = await getPointData(lat, lon);
@@ -53,7 +53,10 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
     <div className="mx-auto max-w-2xl px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <Link href="/" className="text-sm text-muted-foreground hover:underline">
+          <Link
+            href="/"
+            className="text-sm text-muted-foreground hover:underline"
+          >
             &larr; Back
           </Link>
           <h1 className="text-2xl font-bold">

@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -12,9 +12,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "api.weather.gov",
-        pathname: "/icons/**",
+        protocol: 'https',
+        hostname: 'api.weather.gov',
+        pathname: '/icons/**',
       },
     ],
   },

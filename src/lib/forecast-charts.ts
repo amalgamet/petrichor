@@ -1,6 +1,6 @@
-import type { ChartConfig } from "@/components/ui/chart";
-import type { ForecastPeriod, TemperatureUnit } from "./types";
-import { fahrenheitToCelsius } from "./utils";
+import type { ChartConfig } from '@/components/ui/chart';
+import type { ForecastPeriod, TemperatureUnit } from './types';
+import { fahrenheitToCelsius } from './utils';
 
 // --- Hourly chart ---
 
@@ -10,10 +10,12 @@ export interface HourlyChartPoint {
   precip: number;
 }
 
-export function toHourlyChartData(periods: ForecastPeriod[]): HourlyChartPoint[] {
+export function toHourlyChartData(
+  periods: ForecastPeriod[],
+): HourlyChartPoint[] {
   return periods.map((p) => ({
-    time: new Date(p.startTime).toLocaleTimeString("en-US", {
-      hour: "numeric",
+    time: new Date(p.startTime).toLocaleTimeString('en-US', {
+      hour: 'numeric',
       hour12: true,
     }),
     temperature: p.temperature,
@@ -41,8 +43,8 @@ export function toDailyChartData(periods: ForecastPeriod[]): DailyChartPoint[] {
     const hasNight = next && !next.isDaytime;
 
     days.push({
-      day: new Date(period.startTime).toLocaleDateString("en-US", {
-        weekday: "short",
+      day: new Date(period.startTime).toLocaleDateString('en-US', {
+        weekday: 'short',
       }),
       high: period.temperature,
       low: hasNight ? next.temperature : null,
@@ -60,33 +62,33 @@ export function toDailyChartData(periods: ForecastPeriod[]): DailyChartPoint[] {
 
 export const hourlyChartConfig = {
   temperature: {
-    label: "Temperature",
-    color: "var(--chart-1)",
+    label: 'Temperature',
+    color: 'var(--chart-1)',
   },
   precip: {
-    label: "Precipitation",
-    color: "var(--chart-2)",
+    label: 'Precipitation',
+    color: 'var(--chart-2)',
   },
 } satisfies ChartConfig;
 
 export const dailyChartConfig = {
   high: {
-    label: "High",
-    color: "var(--chart-1)",
+    label: 'High',
+    color: 'var(--chart-1)',
   },
   low: {
-    label: "Low",
-    color: "var(--chart-2)",
+    label: 'Low',
+    color: 'var(--chart-2)',
   },
   precip: {
-    label: "Precipitation",
-    color: "var(--chart-3)",
+    label: 'Precipitation',
+    color: 'var(--chart-3)',
   },
 } satisfies ChartConfig;
 
 // --- Unit conversion for chart display ---
 
 export function convertTemperature(f: number, unit: TemperatureUnit): number {
-  if (unit === "C") return fahrenheitToCelsius(f)!;
+  if (unit === 'C') return fahrenheitToCelsius(f)!;
   return f;
 }

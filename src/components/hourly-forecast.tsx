@@ -1,15 +1,17 @@
-import Image from "next/image";
-import { getHourlyForecast } from "@/lib/weather-api";
-import { toHourlyChartData } from "@/lib/forecast-charts";
-import { ForecastTemperature } from "@/components/temperature";
-import { HourlyForecastChart } from "@/components/hourly-forecast-chart";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from 'next/image';
+import { getHourlyForecast } from '@/lib/weather-api';
+import { toHourlyChartData } from '@/lib/forecast-charts';
+import { ForecastTemperature } from '@/components/temperature';
+import { HourlyForecastChart } from '@/components/hourly-forecast-chart';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface HourlyForecastProps {
   forecastHourlyUrl: string;
 }
 
-export async function HourlyForecast({ forecastHourlyUrl }: HourlyForecastProps) {
+export async function HourlyForecast({
+  forecastHourlyUrl,
+}: HourlyForecastProps) {
   const periods = await getHourlyForecast(forecastHourlyUrl);
   const next24 = periods.slice(0, 24);
   const chartData = toHourlyChartData(next24);
@@ -24,8 +26,8 @@ export async function HourlyForecast({ forecastHourlyUrl }: HourlyForecastProps)
         <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
           {next24.map((period) => {
             const time = new Date(period.startTime);
-            const hour = time.toLocaleTimeString("en-US", {
-              hour: "numeric",
+            const hour = time.toLocaleTimeString('en-US', {
+              hour: 'numeric',
               hour12: true,
             });
 
@@ -41,7 +43,10 @@ export async function HourlyForecast({ forecastHourlyUrl }: HourlyForecastProps)
                   width={40}
                   height={40}
                 />
-                <ForecastTemperature fahrenheit={period.temperature} className="font-medium" />
+                <ForecastTemperature
+                  fahrenheit={period.temperature}
+                  className="font-medium"
+                />
                 {period.probabilityOfPrecipitation.value !== null &&
                   period.probabilityOfPrecipitation.value > 0 && (
                     <span className="text-xs text-blue-500">
