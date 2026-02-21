@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  cacheComponents: true,
+  cacheLife: {
+    observations: {
+      stale: 60,
+      revalidate: 300,
+      expire: 600,
+    },
+  },
 };
 
 export default nextConfig;
