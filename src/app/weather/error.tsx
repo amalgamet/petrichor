@@ -19,7 +19,7 @@ export default function WeatherError({
           <p className="mt-2 text-sm text-muted-foreground">
             {error.message.includes('weather.gov')
               ? 'The weather service is temporarily unavailable. Please try again.'
-              : "We couldn't load the weather data for this location."}
+              : 'We couldn\u2019t load the weather data for this location.'}
           </p>
           <div className="mt-4 flex justify-center gap-3">
             <Button onClick={reset}>Try again</Button>

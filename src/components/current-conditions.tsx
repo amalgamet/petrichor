@@ -29,7 +29,7 @@ export async function CurrentConditions({
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>Current Conditions</span>
-          <span className="text-sm font-normal text-muted-foreground">
+          <span className="min-w-0 truncate text-sm font-normal text-muted-foreground">
             {conditions.stationName}
           </span>
         </CardTitle>
@@ -53,7 +53,7 @@ export async function CurrentConditions({
             </p>
           </div>
         </div>
-        <div className="mt-6 grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
+        <div className="mt-6 grid grid-cols-2 gap-4 text-sm tabular-nums sm:grid-cols-3">
           {conditions.humidity !== null && (
             <Detail
               label="Humidity"
@@ -63,7 +63,7 @@ export async function CurrentConditions({
           {windMph !== null && (
             <Detail
               label="Wind"
-              value={`${windDir ?? ''} ${Math.round(windMph)} mph${gustMph !== null ? ` (gusts ${Math.round(gustMph)})` : ''}`}
+              value={`${windDir ?? ''} ${Math.round(windMph)}\u00a0mph${gustMph !== null ? ` (gusts ${Math.round(gustMph)})` : ''}`}
             />
           )}
           {conditions.dewpointC !== null && (
@@ -75,12 +75,12 @@ export async function CurrentConditions({
             </div>
           )}
           {visMiles !== null && (
-            <Detail label="Visibility" value={`${visMiles.toFixed(1)} mi`} />
+            <Detail label="Visibility" value={`${visMiles.toFixed(1)}\u00a0mi`} />
           )}
           {pressureInHg !== null && (
             <Detail
               label="Pressure"
-              value={`${pressureInHg.toFixed(2)} inHg`}
+              value={`${pressureInHg.toFixed(2)}\u00a0inHg`}
             />
           )}
           {conditions.windChillC !== null && (

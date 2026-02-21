@@ -51,13 +51,17 @@ export function GeolocationButton() {
         {loading ? (
           <>
             <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-            Locating...
+            Locating\u2026
           </>
         ) : (
           'Use my location'
         )}
       </Button>
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {error && (
+        <p role="alert" className="text-sm text-destructive">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

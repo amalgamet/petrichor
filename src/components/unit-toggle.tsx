@@ -65,7 +65,12 @@ export function UnitToggle() {
   const { unit, toggleUnit } = useUnit();
 
   return (
-    <Button variant="outline" size="sm" onClick={toggleUnit}>
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={toggleUnit}
+      aria-label={`Switch to °${unit === 'F' ? 'C' : 'F'}`}
+    >
       °{unit === 'F' ? 'C' : 'F'}
     </Button>
   );
