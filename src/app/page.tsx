@@ -1,4 +1,4 @@
-import { UserButton } from '@clerk/nextjs';
+import { UserButton } from '@/components/user-button';
 import { LocationSearch } from '@/components/location-search';
 import { GeolocationButton } from '@/components/geolocation-button';
 import { ThemeToggle } from '@/components/theme-toggle';
