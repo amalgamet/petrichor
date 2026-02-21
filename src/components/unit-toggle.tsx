@@ -3,8 +3,7 @@
 import {
   createContext,
   useContext,
-  useState,
-  useEffect,
+  useSyncExternalStore,
   useCallback,
   type ReactNode,
 } from "react";
@@ -26,24 +25,34 @@ export function useUnit() {
 }
 
 const STORAGE_KEY = "petrichor-temp-unit";
+const UNIT_CHANGE_EVENT = "petrichor-unit-change";
+
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener(UNIT_CHANGE_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(UNIT_CHANGE_EVENT, callback);
+  };
+}
+
+function getSnapshot(): TemperatureUnit {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored === "C" || stored === "F" ? stored : "F";
+}
+
+function getServerSnapshot(): TemperatureUnit {
+  return "F";
+}
 
 export function UnitProvider({ children }: { children: ReactNode }) {
-  const [unit, setUnit] = useState<TemperatureUnit>("F");
-
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "C" || stored === "F") {
-      setUnit(stored);
-    }
-  }, []);
+  const unit = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const toggleUnit = useCallback(() => {
-    setUnit((prev) => {
-      const next = prev === "F" ? "C" : "F";
-      localStorage.setItem(STORAGE_KEY, next);
-      return next;
-    });
-  }, []);
+    const next = unit === "F" ? "C" : "F";
+    localStorage.setItem(STORAGE_KEY, next);
+    window.dispatchEvent(new Event(UNIT_CHANGE_EVENT));
+  }, [unit]);
 
   return (
     <UnitContext.Provider value={{ unit, toggleUnit }}>
