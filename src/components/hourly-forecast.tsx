@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getHourlyForecast } from "@/lib/weather-api";
 import { ForecastTemperature } from "@/components/temperature";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,8 +31,7 @@ export async function HourlyForecast({ forecastHourlyUrl }: HourlyForecastProps)
                 className="flex shrink-0 flex-col items-center gap-1 rounded-lg border p-3 text-sm"
               >
                 <span className="text-muted-foreground">{hour}</span>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={period.icon}
                   alt={period.shortForecast}
                   width={40}

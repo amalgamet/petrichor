@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getCurrentConditions } from "@/lib/weather-api";
 import { degreesToCompass, kmhToMph, metersToMiles, pascalsToInHg } from "@/lib/utils";
 import { Temperature } from "@/components/temperature";
@@ -28,8 +29,7 @@ export async function CurrentConditions({ stationsUrl }: CurrentConditionsProps)
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-6">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={conditions.icon}
             alt={conditions.description}
             width={80}

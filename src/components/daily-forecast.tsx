@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getForecast } from "@/lib/weather-api";
 import { ForecastTemperature } from "@/components/temperature";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,8 +22,7 @@ export async function DailyForecast({ forecastUrl }: DailyForecastProps) {
               key={period.number}
               className="flex items-center gap-4 py-3 first:pt-0 last:pb-0"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={period.icon}
                 alt={period.shortForecast}
                 width={48}
