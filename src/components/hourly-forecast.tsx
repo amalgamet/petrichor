@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { getHourlyForecast } from "@/lib/weather-api";
+import { toHourlyChartData } from "@/lib/forecast-charts";
 import { ForecastTemperature } from "@/components/temperature";
+import { HourlyForecastChart } from "@/components/hourly-forecast-chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface HourlyForecastProps {
@@ -10,6 +12,7 @@ interface HourlyForecastProps {
 export async function HourlyForecast({ forecastHourlyUrl }: HourlyForecastProps) {
   const periods = await getHourlyForecast(forecastHourlyUrl);
   const next24 = periods.slice(0, 24);
+  const chartData = toHourlyChartData(next24);
 
   return (
     <Card>
@@ -17,7 +20,8 @@ export async function HourlyForecast({ forecastHourlyUrl }: HourlyForecastProps)
         <CardTitle>Hourly Forecast</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-3 overflow-x-auto pb-2">
+        <HourlyForecastChart data={chartData} />
+        <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
           {next24.map((period) => {
             const time = new Date(period.startTime);
             const hour = time.toLocaleTimeString("en-US", {
