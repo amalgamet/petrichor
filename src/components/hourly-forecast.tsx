@@ -1,7 +1,4 @@
-import Image from 'next/image';
 import { getHourlyForecast } from '@/lib/weather-api';
-import { toHourlyChartData } from '@/lib/forecast-charts';
-import { ForecastTemperature } from '@/components/temperature';
 import { HourlyForecastChart } from '@/components/hourly-forecast-chart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -14,49 +11,14 @@ export async function HourlyForecast({
 }: HourlyForecastProps) {
   const periods = await getHourlyForecast(forecastHourlyUrl);
   const next24 = periods.slice(0, 24);
-  const chartData = toHourlyChartData(next24);
 
   return (
-    <Card>
+    <Card className="md:col-span-2">
       <CardHeader>
         <CardTitle>Hourly Forecast</CardTitle>
       </CardHeader>
       <CardContent>
-        <HourlyForecastChart data={chartData} />
-        <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
-          {next24.map((period) => {
-            const time = new Date(period.startTime);
-            const hour = time.toLocaleTimeString('en-US', {
-              hour: 'numeric',
-              hour12: true,
-            });
-
-            return (
-              <div
-                key={period.number}
-                className="flex shrink-0 flex-col items-center gap-1 rounded-lg border p-3 text-sm"
-              >
-                <span className="text-muted-foreground">{hour}</span>
-                <Image
-                  src={period.icon}
-                  alt={period.shortForecast}
-                  width={40}
-                  height={40}
-                />
-                <ForecastTemperature
-                  fahrenheit={period.temperature}
-                  className="font-medium"
-                />
-                {period.probabilityOfPrecipitation.value !== null &&
-                  period.probabilityOfPrecipitation.value > 0 && (
-                    <span className="text-xs text-muted-foreground italic">
-                      {period.probabilityOfPrecipitation.value}%
-                    </span>
-                  )}
-              </div>
-            );
-          })}
-        </div>
+        <HourlyForecastChart periods={next24} />
       </CardContent>
     </Card>
   );

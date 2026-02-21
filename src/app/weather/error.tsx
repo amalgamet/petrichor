@@ -12,7 +12,7 @@ export default function WeatherError({
   reset: () => void;
 }) {
   return (
-    <div className="mx-auto flex max-w-2xl items-center justify-center px-4 py-16">
+    <div className="mx-auto flex max-w-3xl items-center justify-center px-4 py-16">
       <Card className="w-full max-w-md">
         <CardContent className="pt-6 text-center">
           <h2 className="text-xl font-semibold">Something went wrong</h2>

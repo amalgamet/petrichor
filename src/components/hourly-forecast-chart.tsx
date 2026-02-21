@@ -16,19 +16,20 @@ import {
 import { useUnit } from '@/components/unit-toggle';
 import { formatTemperature } from '@/lib/utils';
 import {
-  type HourlyChartPoint,
+  toHourlyChartData,
   hourlyChartConfig,
   convertTemperature,
 } from '@/lib/forecast-charts';
+import type { ForecastPeriod } from '@/lib/types';
 
 interface HourlyForecastChartProps {
-  data: HourlyChartPoint[];
+  periods: ForecastPeriod[];
 }
 
-export function HourlyForecastChart({ data }: HourlyForecastChartProps) {
+export function HourlyForecastChart({ periods }: HourlyForecastChartProps) {
   const { unit } = useUnit();
 
-  const chartData = data.map((point) => ({
+  const chartData = toHourlyChartData(periods).map((point) => ({
     ...point,
     temperature: convertTemperature(point.temperature, unit),
   }));

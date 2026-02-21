@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import { getForecast } from '@/lib/weather-api';
-import { toDailyChartData } from '@/lib/forecast-charts';
 import { ForecastTemperature } from '@/components/temperature';
-import { DailyForecastChart } from '@/components/daily-forecast-chart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface DailyForecastProps {
@@ -11,16 +9,14 @@ interface DailyForecastProps {
 
 export async function DailyForecast({ forecastUrl }: DailyForecastProps) {
   const periods = await getForecast(forecastUrl);
-  const chartData = toDailyChartData(periods);
 
   return (
-    <Card>
+    <Card className="md:col-span-2">
       <CardHeader>
         <CardTitle>7-Day Forecast</CardTitle>
       </CardHeader>
       <CardContent>
-        <DailyForecastChart data={chartData} />
-        <div className="mt-4 divide-y">
+        <div className="divide-y">
           {periods.map((period) => (
             <div
               key={period.number}
