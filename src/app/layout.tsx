@@ -1,26 +1,34 @@
-import type { Metadata } from 'next';
-import { Lora, Playfair_Display } from 'next/font/google';
+import { preconnect } from 'react-dom';
+import type { Metadata, Viewport } from 'next';
+import { DM_Sans, Instrument_Sans } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import { UnitProvider } from '@/components/unit-toggle';
 import './globals.css';
 
-const lora = Lora({
-  variable: '--font-serif',
+const dmSans = DM_Sans({
+  variable: '--font-body',
   subsets: ['latin'],
 });
 
-const playfair = Playfair_Display({
-  variable: '--font-display-serif',
+const instrumentSans = Instrument_Sans({
+  variable: '--font-heading',
   subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Petrichor \u2014 US Weather',
+    default: 'Petrichor - US Weather',
     template: '%s | Petrichor',
   },
   description:
     'Weather conditions and forecasts for US locations, powered by weather.gov',
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f7f5f3' },
+    { media: '(prefers-color-scheme: dark)', color: '#1c1b19' },
+  ],
 };
 
 export default function RootLayout({
@@ -28,13 +36,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  preconnect('https://api.weather.gov');
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${lora.variable} ${playfair.variable} min-h-screen bg-background font-sans antialiased`}
+        className={`${dmSans.variable} ${instrumentSans.variable} min-h-screen bg-background font-sans antialiased`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:shadow-lg"
+        >
+          Skip to content
+        </a>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <UnitProvider>{children}</UnitProvider>
+          <UnitProvider>
+            <main id="main-content">{children}</main>
+          </UnitProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -9,15 +9,6 @@ const nextConfig: NextConfig = {
       expire: 600,
     },
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'api.weather.gov',
-        pathname: '/icons/**',
-      },
-    ],
-  },
 };
 
 export default nextConfig;

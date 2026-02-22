@@ -10,7 +10,6 @@ import { DailyForecast } from '@/components/daily-forecast';
 import { UnitToggle } from '@/components/unit-toggle';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface WeatherPageProps {
   searchParams: Promise<{ lat?: string; lon?: string }>;
@@ -50,32 +49,36 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
   const point = await getPointData(lat, lon);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <div className="mb-6 flex items-center justify-between gap-4">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-8">
+      <div className="mb-12 flex items-end justify-between gap-4">
         <div className="min-w-0">
           <Link
             href="/"
-            className="text-sm text-muted-foreground hover:underline"
+            className="text-xs font-semibold tracking-widest text-muted-foreground uppercase hover:underline focus-visible:underline"
           >
-            &larr; Back
+            &larr; back
           </Link>
-          <h1 className="text-2xl font-bold">
+          <h1 className="truncate text-4xl sm:text-5xl">
             {point.city}, {point.state}
           </h1>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <ThemeToggle />
           <UnitToggle />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="h-px bg-border" />
+      <div className="grid grid-cols-1 gap-x-8 gap-y-10 pt-10 md:grid-cols-12">
         <Suspense fallback={<CurrentConditionsSkeleton />}>
           <CurrentConditions stationsUrl={point.stationsUrl} />
         </Suspense>
         <Suspense fallback={<ChartSkeleton title="Hourly Forecast" />}>
           <HourlyForecast forecastHourlyUrl={point.forecastHourlyUrl} />
         </Suspense>
-        <Suspense fallback={<ChartSkeleton title="7-Day Forecast" />}>
+        <div className="md:col-span-12">
+          <div className="h-px bg-border" />
+        </div>
+        <Suspense fallback={<DailyForecastSkeleton />}>
           <DailyForecast forecastUrl={point.forecastUrl} />
         </Suspense>
       </div>
@@ -85,38 +88,44 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
 
 function CurrentConditionsSkeleton() {
   return (
-    <>
-      <Card className="flex flex-col items-center justify-center">
-        <CardContent className="space-y-3 pt-6 text-center">
-          <Skeleton className="mx-auto h-24 w-24 rounded-full" />
-          <Skeleton className="mx-auto h-12 w-24" />
-          <Skeleton className="mx-auto h-5 w-32" />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Conditions</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
+    <div className="md:col-span-5 space-y-6">
+      <div className="space-y-3">
+        <Skeleton className="h-5 w-5" />
+        <Skeleton className="h-20 w-36" />
+        <Skeleton className="h-5 w-32" />
+      </div>
+      <div className="h-px bg-border" />
+      <div>
+        <h2>Conditions</h2>
+        <div className="mt-3 space-y-3">
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-3/4" />
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-1/2" />
-        </CardContent>
-      </Card>
-    </>
+        </div>
+      </div>
+    </div>
   );
 }
 
 function ChartSkeleton({ title }: { title: string }) {
   return (
-    <Card className="md:col-span-2">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Skeleton className="h-[200px] w-full" />
-      </CardContent>
-    </Card>
+    <section className="md:col-span-7">
+      <h2>{title}</h2>
+      <Skeleton className="mt-3 h-[200px] w-full sm:h-[280px]" />
+    </section>
+  );
+}
+
+function DailyForecastSkeleton() {
+  return (
+    <section className="md:col-span-12">
+      <h2>7-Day Forecast</h2>
+      <div className="mt-3 space-y-4">
+        {Array.from({ length: 7 }, (_, i) => (
+          <Skeleton key={i} className="h-5 w-full" />
+        ))}
+      </div>
+    </section>
   );
 }

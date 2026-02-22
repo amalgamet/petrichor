@@ -46,12 +46,12 @@ export function GeolocationButton() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center">
       <Button onClick={handleClick} disabled={loading} variant="outline">
         {loading ? (
           <>
             <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-            Locating\u2026
+            Locating...
           </>
         ) : (
           'Use my location'

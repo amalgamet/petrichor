@@ -112,7 +112,7 @@ export function LocationSearch() {
       <ul
         id={LISTBOX_ID}
         role="listbox"
-        className={`absolute z-10 mt-1 w-full rounded-md border bg-popover shadow-lg ${open && results.length > 0 ? '' : 'hidden'}`}
+        className={`absolute z-10 mt-1 w-full border bg-popover ${open && results.length > 0 ? '' : 'hidden'}`}
       >
         {results.map((r, i) => (
           <li

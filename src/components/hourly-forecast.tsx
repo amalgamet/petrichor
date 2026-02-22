@@ -1,6 +1,5 @@
 import { getHourlyForecast } from '@/lib/weather-api';
 import { HourlyForecastChart } from '@/components/hourly-forecast-chart';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface HourlyForecastProps {
   forecastHourlyUrl: string;
@@ -13,13 +12,11 @@ export async function HourlyForecast({
   const next24 = periods.slice(0, 24);
 
   return (
-    <Card className="md:col-span-2">
-      <CardHeader>
-        <CardTitle>Hourly Forecast</CardTitle>
-      </CardHeader>
-      <CardContent>
+    <section className="md:col-span-7">
+      <h2>Hourly Forecast</h2>
+      <div className="mt-3">
         <HourlyForecastChart periods={next24} />
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }

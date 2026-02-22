@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { getCurrentConditions } from '@/lib/weather-api';
 import {
   degreesToCompass,
@@ -7,7 +6,7 @@ import {
   pascalsToInHg,
 } from '@/lib/utils';
 import { Temperature } from '@/components/temperature';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getWeatherIcon } from '@/lib/weather-icons';
 
 interface CurrentConditionsProps {
   stationsUrl: string;
@@ -24,86 +23,78 @@ export async function CurrentConditions({
   const visMiles = metersToMiles(conditions.visibilityM);
   const pressureInHg = pascalsToInHg(conditions.pressurePa);
 
+  const Icon = getWeatherIcon(conditions.description);
+
   return (
-    <>
-      <Card className="flex flex-col items-center justify-center">
-        <CardContent className="pt-6 text-center">
-          <Image
-            src={conditions.icon}
-            alt={conditions.description}
-            width={96}
-            height={96}
-          />
-          <Temperature
-            celsius={conditions.temperatureC}
-            className="mt-2 text-6xl font-bold"
-          />
-          <p className="mt-1 text-lg text-muted-foreground">
-            {conditions.description}
-          </p>
-          <p className="mt-2 text-xs text-muted-foreground">
-            {conditions.stationName}
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Conditions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-4 text-sm tabular-nums">
-            {conditions.humidity !== null && (
-              <Detail
-                label="Humidity"
-                value={`${Math.round(conditions.humidity)}%`}
-              />
-            )}
-            {windMph !== null && (
-              <Detail
-                label="Wind"
-                value={`${windDir ?? ''} ${Math.round(windMph)}\u00a0mph${gustMph !== null ? ` (gusts ${Math.round(gustMph)})` : ''}`}
-              />
-            )}
-            {conditions.dewpointC !== null && (
-              <div>
-                <span className="text-muted-foreground">Dew Point</span>
-                <div className="font-medium">
-                  <Temperature celsius={conditions.dewpointC} />
-                </div>
+    <div className="md:col-span-5 space-y-6">
+      <section>
+        <Icon size={20} aria-hidden className="text-muted-foreground" />
+        <Temperature
+          celsius={conditions.temperatureC}
+          className="mt-1 text-8xl font-extrabold tracking-tighter sm:text-9xl"
+        />
+        <p className="mt-1 text-muted-foreground">
+          {conditions.description}
+        </p>
+        <p className="mt-2 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+          {conditions.stationName}
+        </p>
+      </section>
+      <div className="h-px bg-border" />
+      <section>
+        <h2>Conditions</h2>
+        <div className="mt-3 grid grid-cols-2 gap-4 text-sm tabular-nums sm:grid-cols-3">
+          {conditions.humidity !== null && (
+            <Detail
+              label="Humidity"
+              value={`${Math.round(conditions.humidity)}%`}
+            />
+          )}
+          {windMph !== null && (
+            <Detail
+              label="Wind"
+              value={`${windDir ?? ''} ${Math.round(windMph)} mph${gustMph !== null ? ` (gusts ${Math.round(gustMph)})` : ''}`}
+            />
+          )}
+          {conditions.dewpointC !== null && (
+            <div>
+              <span className="text-muted-foreground">Dew Point</span>
+              <div className="font-medium">
+                <Temperature celsius={conditions.dewpointC} />
               </div>
-            )}
-            {visMiles !== null && (
-              <Detail
-                label="Visibility"
-                value={`${visMiles.toFixed(1)}\u00a0mi`}
-              />
-            )}
-            {pressureInHg !== null && (
-              <Detail
-                label="Pressure"
-                value={`${pressureInHg.toFixed(2)}\u00a0inHg`}
-              />
-            )}
-            {conditions.windChillC !== null && (
-              <div>
-                <span className="text-muted-foreground">Wind Chill</span>
-                <div className="font-medium">
-                  <Temperature celsius={conditions.windChillC} />
-                </div>
+            </div>
+          )}
+          {visMiles !== null && (
+            <Detail
+              label="Visibility"
+              value={`${visMiles.toFixed(1)} mi`}
+            />
+          )}
+          {pressureInHg !== null && (
+            <Detail
+              label="Pressure"
+              value={`${pressureInHg.toFixed(2)} inHg`}
+            />
+          )}
+          {conditions.windChillC !== null && (
+            <div>
+              <span className="text-muted-foreground">Wind Chill</span>
+              <div className="font-medium">
+                <Temperature celsius={conditions.windChillC} />
               </div>
-            )}
-            {conditions.heatIndexC !== null && (
-              <div>
-                <span className="text-muted-foreground">Heat Index</span>
-                <div className="font-medium">
-                  <Temperature celsius={conditions.heatIndexC} />
-                </div>
+            </div>
+          )}
+          {conditions.heatIndexC !== null && (
+            <div>
+              <span className="text-muted-foreground">Heat Index</span>
+              <div className="font-medium">
+                <Temperature celsius={conditions.heatIndexC} />
               </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    </>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }
 
