@@ -22,9 +22,9 @@ describe('proxy route matching', () => {
   });
 
   it('matches the webhook route', () => {
-    expect(
-      unstable_doesMiddlewareMatch({ config, url: '/api/webhooks' }),
-    ).toBe(true);
+    expect(unstable_doesMiddlewareMatch({ config, url: '/api/webhooks' })).toBe(
+      true,
+    );
   });
 
   it('does not match static files', () => {
@@ -34,16 +34,15 @@ describe('proxy route matching', () => {
   });
 
   it('does not match image files', () => {
-    expect(
-      unstable_doesMiddlewareMatch({ config, url: '/favicon.ico' }),
-    ).toBe(false);
+    expect(unstable_doesMiddlewareMatch({ config, url: '/favicon.ico' })).toBe(
+      false,
+    );
   });
 });
 
 describe('public route matching', () => {
   const isPublicRoute = createRouteMatcher(PUBLIC_ROUTES);
-  const req = (path: string) =>
-    new NextRequest(`http://localhost:3000${path}`);
+  const req = (path: string) => new NextRequest(`http://localhost:3000${path}`);
 
   it('marks /sign-in as public', () => {
     expect(isPublicRoute(req('/sign-in'))).toBe(true);

@@ -6,7 +6,7 @@ import {
   pascalsToInHg,
 } from '@/lib/utils';
 import { Temperature } from '@/components/temperature';
-import { getWeatherIcon } from '@/lib/weather-icons';
+import { WeatherIcon } from '@/lib/weather-icons';
 
 interface CurrentConditionsProps {
   stationsUrl: string;
@@ -23,19 +23,20 @@ export async function CurrentConditions({
   const visMiles = metersToMiles(conditions.visibilityM);
   const pressureInHg = pascalsToInHg(conditions.pressurePa);
 
-  const Icon = getWeatherIcon(conditions.description);
-
   return (
     <div className="md:col-span-5 space-y-6">
       <section>
-        <Icon size={20} aria-hidden className="text-muted-foreground" />
+        <WeatherIcon
+          shortForecast={conditions.description}
+          size={20}
+          aria-hidden
+          className="text-muted-foreground"
+        />
         <Temperature
           celsius={conditions.temperatureC}
           className="mt-1 text-8xl font-extrabold tracking-tighter sm:text-9xl"
         />
-        <p className="mt-1 text-muted-foreground">
-          {conditions.description}
-        </p>
+        <p className="mt-1 text-muted-foreground">{conditions.description}</p>
         <p className="mt-2 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
           {conditions.stationName}
         </p>
@@ -65,10 +66,7 @@ export async function CurrentConditions({
             </div>
           )}
           {visMiles !== null && (
-            <Detail
-              label="Visibility"
-              value={`${visMiles.toFixed(1)} mi`}
-            />
+            <Detail label="Visibility" value={`${visMiles.toFixed(1)} mi`} />
           )}
           {pressureInHg !== null && (
             <Detail

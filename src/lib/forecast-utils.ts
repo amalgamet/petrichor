@@ -5,7 +5,10 @@ import type { DayForecast, ForecastPeriod } from './types';
  * Periods are grouped by the date portion of startTime (YYYY-MM-DD).
  */
 export function pairForecastDays(periods: ForecastPeriod[]): DayForecast[] {
-  const grouped = new Map<string, { day?: ForecastPeriod; night?: ForecastPeriod }>();
+  const grouped = new Map<
+    string,
+    { day?: ForecastPeriod; night?: ForecastPeriod }
+  >();
 
   for (const period of periods) {
     const date = period.startTime.slice(0, 10);
@@ -62,7 +65,7 @@ export function calcTempRange(days: DayForecast[]): {
   );
 
   if (temps.length === 0) {
-    return { weekMin: 0, weekMax: 0 };
+    throw new Error('No temperature data available in forecast');
   }
 
   return {

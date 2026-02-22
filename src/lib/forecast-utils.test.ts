@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { pairForecastDays, calcTempRange, tempRangeBar } from './forecast-utils';
+import {
+  pairForecastDays,
+  calcTempRange,
+  tempRangeBar,
+} from './forecast-utils';
 import { makePeriod } from './test-factories';
 
 describe('pairForecastDays', () => {
@@ -44,7 +48,10 @@ describe('pairForecastDays', () => {
         isDaytime: false,
         temperature: 28,
         shortForecast: 'Partly Cloudy',
-        probabilityOfPrecipitation: { unitCode: 'wmoUnit:percent', value: null },
+        probabilityOfPrecipitation: {
+          unitCode: 'wmoUnit:percent',
+          value: null,
+        },
       }),
       makePeriod({
         name: 'Monday',
@@ -52,7 +59,10 @@ describe('pairForecastDays', () => {
         isDaytime: true,
         temperature: 42,
         shortForecast: 'Sunny',
-        probabilityOfPrecipitation: { unitCode: 'wmoUnit:percent', value: null },
+        probabilityOfPrecipitation: {
+          unitCode: 'wmoUnit:percent',
+          value: null,
+        },
       }),
       makePeriod({
         name: 'Monday Night',
@@ -60,7 +70,10 @@ describe('pairForecastDays', () => {
         isDaytime: false,
         temperature: 25,
         shortForecast: 'Clear',
-        probabilityOfPrecipitation: { unitCode: 'wmoUnit:percent', value: null },
+        probabilityOfPrecipitation: {
+          unitCode: 'wmoUnit:percent',
+          value: null,
+        },
       }),
     ];
 
@@ -142,14 +155,20 @@ describe('pairForecastDays', () => {
         startTime: '2026-02-26T06:00:00-06:00',
         isDaytime: true,
         temperature: 55,
-        probabilityOfPrecipitation: { unitCode: 'wmoUnit:percent', value: null },
+        probabilityOfPrecipitation: {
+          unitCode: 'wmoUnit:percent',
+          value: null,
+        },
       }),
       makePeriod({
         name: 'Thursday Night',
         startTime: '2026-02-26T18:00:00-06:00',
         isDaytime: false,
         temperature: 40,
-        probabilityOfPrecipitation: { unitCode: 'wmoUnit:percent', value: null },
+        probabilityOfPrecipitation: {
+          unitCode: 'wmoUnit:percent',
+          value: null,
+        },
       }),
     ];
 
@@ -210,7 +229,15 @@ describe('pairForecastDays', () => {
   });
 
   it('handles a full week of periods', () => {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const days = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
     const periods = days.flatMap((name, i) => [
       makePeriod({
         name,
@@ -240,9 +267,30 @@ describe('pairForecastDays', () => {
 describe('calcTempRange', () => {
   it('returns min and max across all days', () => {
     const days = [
-      { dayName: 'Mon', date: '2026-02-23', highTempF: 45, lowTempF: 30, shortForecast: '', precipChance: null },
-      { dayName: 'Tue', date: '2026-02-24', highTempF: 50, lowTempF: 25, shortForecast: '', precipChance: null },
-      { dayName: 'Wed', date: '2026-02-25', highTempF: 42, lowTempF: 35, shortForecast: '', precipChance: null },
+      {
+        dayName: 'Mon',
+        date: '2026-02-23',
+        highTempF: 45,
+        lowTempF: 30,
+        shortForecast: '',
+        precipChance: null,
+      },
+      {
+        dayName: 'Tue',
+        date: '2026-02-24',
+        highTempF: 50,
+        lowTempF: 25,
+        shortForecast: '',
+        precipChance: null,
+      },
+      {
+        dayName: 'Wed',
+        date: '2026-02-25',
+        highTempF: 42,
+        lowTempF: 35,
+        shortForecast: '',
+        precipChance: null,
+      },
     ];
 
     expect(calcTempRange(days)).toEqual({ weekMin: 25, weekMax: 50 });
@@ -250,8 +298,22 @@ describe('calcTempRange', () => {
 
   it('handles days with null highTempF', () => {
     const days = [
-      { dayName: 'Tonight', date: '2026-02-22', highTempF: null, lowTempF: 28, shortForecast: '', precipChance: null },
-      { dayName: 'Mon', date: '2026-02-23', highTempF: 45, lowTempF: 30, shortForecast: '', precipChance: null },
+      {
+        dayName: 'Tonight',
+        date: '2026-02-22',
+        highTempF: null,
+        lowTempF: 28,
+        shortForecast: '',
+        precipChance: null,
+      },
+      {
+        dayName: 'Mon',
+        date: '2026-02-23',
+        highTempF: 45,
+        lowTempF: 30,
+        shortForecast: '',
+        precipChance: null,
+      },
     ];
 
     expect(calcTempRange(days)).toEqual({ weekMin: 28, weekMax: 45 });
@@ -259,7 +321,14 @@ describe('calcTempRange', () => {
 
   it('handles days with null lowTempF', () => {
     const days = [
-      { dayName: 'Sat', date: '2026-03-01', highTempF: 50, lowTempF: null, shortForecast: '', precipChance: null },
+      {
+        dayName: 'Sat',
+        date: '2026-03-01',
+        highTempF: 50,
+        lowTempF: null,
+        shortForecast: '',
+        precipChance: null,
+      },
     ];
 
     expect(calcTempRange(days)).toEqual({ weekMin: 50, weekMax: 50 });
@@ -267,37 +336,65 @@ describe('calcTempRange', () => {
 
   it('handles all identical temperatures', () => {
     const days = [
-      { dayName: 'Mon', date: '2026-02-23', highTempF: 40, lowTempF: 40, shortForecast: '', precipChance: null },
+      {
+        dayName: 'Mon',
+        date: '2026-02-23',
+        highTempF: 40,
+        lowTempF: 40,
+        shortForecast: '',
+        precipChance: null,
+      },
     ];
 
     expect(calcTempRange(days)).toEqual({ weekMin: 40, weekMax: 40 });
   });
 
-  it('returns zeros for an empty array', () => {
-    expect(calcTempRange([])).toEqual({ weekMin: 0, weekMax: 0 });
+  it('throws when no temperature data is available', () => {
+    expect(() => calcTempRange([])).toThrow('No temperature data available');
   });
 
-  it('returns zeros when all temperatures are null', () => {
+  it('throws when all temperatures are null', () => {
     const days = [
-      { dayName: 'Tonight', date: '2026-02-22', highTempF: null, lowTempF: null, shortForecast: '', precipChance: null },
+      {
+        dayName: 'Mon',
+        date: '2026-02-23',
+        highTempF: null,
+        lowTempF: null,
+        shortForecast: '',
+        precipChance: null,
+      },
     ];
 
-    expect(calcTempRange(days)).toEqual({ weekMin: 0, weekMax: 0 });
+    expect(() => calcTempRange(days)).toThrow('No temperature data available');
   });
 });
 
 describe('tempRangeBar', () => {
   it('calculates left offset and width as percentages', () => {
-    const day = { dayName: 'Mon', date: '2026-02-23', highTempF: 40, lowTempF: 30, shortForecast: '', precipChance: null };
+    const day = {
+      dayName: 'Mon',
+      date: '2026-02-23',
+      highTempF: 40,
+      lowTempF: 30,
+      shortForecast: '',
+      precipChance: null,
+    };
 
     const result = tempRangeBar(day, 20, 60);
 
-    expect(result.leftPct).toBe(25);  // (30-20)/(60-20) = 25%
+    expect(result.leftPct).toBe(25); // (30-20)/(60-20) = 25%
     expect(result.widthPct).toBe(25); // (40-30)/(60-20) = 25%
   });
 
   it('returns full width when weekMin equals weekMax', () => {
-    const day = { dayName: 'Mon', date: '2026-02-23', highTempF: 40, lowTempF: 40, shortForecast: '', precipChance: null };
+    const day = {
+      dayName: 'Mon',
+      date: '2026-02-23',
+      highTempF: 40,
+      lowTempF: 40,
+      shortForecast: '',
+      precipChance: null,
+    };
 
     const result = tempRangeBar(day, 40, 40);
 
@@ -306,7 +403,14 @@ describe('tempRangeBar', () => {
   });
 
   it('handles null lowTempF by using highTempF', () => {
-    const day = { dayName: 'Sat', date: '2026-03-01', highTempF: 50, lowTempF: null, shortForecast: '', precipChance: null };
+    const day = {
+      dayName: 'Sat',
+      date: '2026-03-01',
+      highTempF: 50,
+      lowTempF: null,
+      shortForecast: '',
+      precipChance: null,
+    };
 
     const result = tempRangeBar(day, 20, 60);
 
@@ -316,7 +420,14 @@ describe('tempRangeBar', () => {
   });
 
   it('handles null highTempF by using lowTempF', () => {
-    const day = { dayName: 'Tonight', date: '2026-02-22', highTempF: null, lowTempF: 28, shortForecast: '', precipChance: null };
+    const day = {
+      dayName: 'Tonight',
+      date: '2026-02-22',
+      highTempF: null,
+      lowTempF: 28,
+      shortForecast: '',
+      precipChance: null,
+    };
 
     const result = tempRangeBar(day, 20, 60);
 
@@ -326,7 +437,14 @@ describe('tempRangeBar', () => {
   });
 
   it('spans the full range for the most extreme day', () => {
-    const day = { dayName: 'Mon', date: '2026-02-23', highTempF: 60, lowTempF: 20, shortForecast: '', precipChance: null };
+    const day = {
+      dayName: 'Mon',
+      date: '2026-02-23',
+      highTempF: 60,
+      lowTempF: 20,
+      shortForecast: '',
+      precipChance: null,
+    };
 
     const result = tempRangeBar(day, 20, 60);
 

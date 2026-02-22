@@ -1,4 +1,5 @@
-import type { LucideIcon } from 'lucide-react';
+import { createElement } from 'react';
+import type { LucideIcon, LucideProps } from 'lucide-react';
 import {
   Cloud,
   CloudFog,
@@ -12,8 +13,9 @@ import {
 } from 'lucide-react';
 
 /**
- * Maps an NWS shortForecast string to a Lucide weather icon.
- * Keywords are checked in priority order (most severe first).
+ * Maps an NWS shortForecast string to a Lucide icon component.
+ * Keywords are checked in priority order (most specific first):
+ * thunder > sleet/ice/freezing > rain > snow > fog > wind > cloud > clear
  */
 export function getWeatherIcon(
   shortForecast: string,
@@ -35,4 +37,13 @@ export function getWeatherIcon(
     return isDaytime ? Sun : Moon;
 
   return Cloud;
+}
+
+/** Renders the appropriate Lucide weather icon for an NWS forecast string. */
+export function WeatherIcon({
+  shortForecast,
+  isDaytime = true,
+  ...props
+}: { shortForecast: string; isDaytime?: boolean } & LucideProps) {
+  return createElement(getWeatherIcon(shortForecast, isDaytime), props);
 }

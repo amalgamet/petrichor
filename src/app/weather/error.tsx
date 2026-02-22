@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
@@ -10,6 +11,10 @@ export default function WeatherError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    console.error('Weather page error:', error);
+  }, [error]);
+
   return (
     <div className="mx-auto flex max-w-4xl items-center justify-center px-4 py-16">
       <div className="w-full max-w-md text-center">

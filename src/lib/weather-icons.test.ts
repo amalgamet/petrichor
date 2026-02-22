@@ -20,7 +20,9 @@ describe('getWeatherIcon', () => {
 
   it('returns Snowflake for snow', () => {
     expect(getWeatherIcon('Snow')).toBe(Snowflake);
-    expect(getWeatherIcon('Heavy Snow And Areas Of Blowing Snow')).toBe(Snowflake);
+    expect(getWeatherIcon('Heavy Snow And Areas Of Blowing Snow')).toBe(
+      Snowflake,
+    );
     expect(getWeatherIcon('Chance Light Snow')).toBe(Snowflake);
     expect(getWeatherIcon('Blizzard')).toBe(Snowflake);
   });
@@ -84,8 +86,8 @@ describe('getWeatherIcon', () => {
     expect(getWeatherIcon('HEAVY SNOW')).toBe(Snowflake);
   });
 
-  it('prioritizes more specific matches over generic ones', () => {
-    // "Rain And Snow" contains both keywords; rain is matched first per priority order
+  it('checks rain before snow in priority order', () => {
+    // "Rain And Snow" contains both keywords; rain is matched first
     expect(getWeatherIcon('Rain And Snow')).toBe(CloudRain);
   });
 });

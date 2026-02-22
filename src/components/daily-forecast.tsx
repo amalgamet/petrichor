@@ -1,7 +1,11 @@
 import { getForecast } from '@/lib/weather-api';
 import { ForecastTemperature } from '@/components/temperature';
-import { pairForecastDays, calcTempRange, tempRangeBar } from '@/lib/forecast-utils';
-import { getWeatherIcon } from '@/lib/weather-icons';
+import {
+  pairForecastDays,
+  calcTempRange,
+  tempRangeBar,
+} from '@/lib/forecast-utils';
+import { WeatherIcon } from '@/lib/weather-icons';
 import type { DayForecast } from '@/lib/types';
 
 interface DailyForecastProps {
@@ -39,19 +43,22 @@ function DayRow({
   weekMin: number;
   weekMax: number;
 }) {
-  const Icon = getWeatherIcon(day.shortForecast);
   const { leftPct, widthPct } = tempRangeBar(day, weekMin, weekMax);
-  const label =
-    day.dayName === 'Tonight'
-      ? 'Tonight'
-      : day.dayName.slice(0, 3).toUpperCase();
+  const isTonight = day.dayName === 'Tonight';
+  const label = isTonight ? day.dayName : day.dayName.slice(0, 3);
 
   return (
     <div className="flex items-center gap-3 py-3 text-sm first:pt-0 last:pb-0 sm:gap-4">
       <span className="w-16 shrink-0 text-xs font-medium tracking-widest text-muted-foreground uppercase">
         {label}
       </span>
-      <Icon size={16} aria-hidden className="shrink-0 text-muted-foreground" />
+      <WeatherIcon
+        shortForecast={day.shortForecast}
+        isDaytime={!isTonight}
+        size={16}
+        aria-hidden
+        className="shrink-0 text-muted-foreground"
+      />
       <span className="hidden min-w-0 flex-1 truncate text-muted-foreground sm:block">
         {day.shortForecast}
       </span>
