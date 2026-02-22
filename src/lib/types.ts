@@ -124,6 +124,17 @@ export interface GeocodingResult {
   displayName: string;
 }
 
+// --- Processed daily forecast (day/night paired) ---
+
+export interface DayForecast {
+  dayName: string;
+  date: string;
+  highTempF: number | null;
+  lowTempF: number | null;
+  shortForecast: string;
+  precipChance: number | null;
+}
+
 // --- Unit preference ---
 
 export type TemperatureUnit = 'F' | 'C';

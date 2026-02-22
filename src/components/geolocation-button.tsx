@@ -46,7 +46,7 @@ export function GeolocationButton() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center">
       <Button onClick={handleClick} disabled={loading} variant="outline">
         {loading ? (
           <>
@@ -57,7 +57,11 @@ export function GeolocationButton() {
           'Use my location'
         )}
       </Button>
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {error && (
+        <p role="alert" className="text-sm text-destructive">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

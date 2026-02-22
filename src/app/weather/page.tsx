@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { UserButton } from '@/components/user-button';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -10,7 +11,6 @@ import { DailyForecast } from '@/components/daily-forecast';
 import { UnitToggle } from '@/components/unit-toggle';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface WeatherPageProps {
   searchParams: Promise<{ lat?: string; lon?: string }>;
@@ -33,7 +33,8 @@ export async function generateMetadata({
       title: `${point.city}, ${point.state} Weather`,
       description: `Current weather conditions and forecast for ${point.city}, ${point.state}`,
     };
-  } catch {
+  } catch (err) {
+    console.error('Failed to generate weather page metadata:', err);
     return { title: 'Weather' };
   }
 }
@@ -50,32 +51,37 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
   const point = await getPointData(lat, lon);
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
-      <div className="mb-6 flex items-center justify-between">
-        <div>
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-8">
+      <div className="mb-12 flex items-end justify-between gap-4">
+        <div className="min-w-0">
           <Link
             href="/"
-            className="text-sm text-muted-foreground hover:underline"
+            className="text-xs font-semibold tracking-widest text-muted-foreground uppercase hover:underline focus-visible:underline"
           >
-            &larr; Back
+            &larr; back
           </Link>
-          <h1 className="text-2xl font-bold">
+          <h1 className="truncate text-4xl sm:text-5xl">
             {point.city}, {point.state}
           </h1>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <ThemeToggle />
           <UnitToggle />
+          <UserButton />
         </div>
       </div>
-      <div className="flex flex-col gap-6">
-        <Suspense fallback={<WeatherSkeleton title="Current Conditions" />}>
+      <div className="h-px bg-border" />
+      <div className="grid grid-cols-1 gap-x-8 gap-y-10 pt-10 md:grid-cols-12">
+        <Suspense fallback={<CurrentConditionsSkeleton />}>
           <CurrentConditions stationsUrl={point.stationsUrl} />
         </Suspense>
-        <Suspense fallback={<WeatherSkeleton title="Hourly Forecast" />}>
+        <Suspense fallback={<ChartSkeleton title="Hourly Forecast" />}>
           <HourlyForecast forecastHourlyUrl={point.forecastHourlyUrl} />
         </Suspense>
-        <Suspense fallback={<WeatherSkeleton title="7-Day Forecast" />}>
+        <div className="md:col-span-12">
+          <div className="h-px bg-border" />
+        </div>
+        <Suspense fallback={<DailyForecastSkeleton />}>
           <DailyForecast forecastUrl={point.forecastUrl} />
         </Suspense>
       </div>
@@ -83,17 +89,46 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
   );
 }
 
-function WeatherSkeleton({ title }: { title: string }) {
+function CurrentConditionsSkeleton() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <Skeleton className="h-20 w-full" />
-        <Skeleton className="h-4 w-3/4" />
-        <Skeleton className="h-4 w-1/2" />
-      </CardContent>
-    </Card>
+    <div className="md:col-span-5 space-y-6">
+      <div className="space-y-3">
+        <Skeleton className="h-5 w-5" />
+        <Skeleton className="h-20 w-36" />
+        <Skeleton className="h-5 w-32" />
+      </div>
+      <div className="h-px bg-border" />
+      <div>
+        <h2>Conditions</h2>
+        <div className="mt-3 space-y-3">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-1/2" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChartSkeleton({ title }: { title: string }) {
+  return (
+    <section className="md:col-span-7">
+      <h2>{title}</h2>
+      <Skeleton className="mt-3 h-[200px] w-full sm:h-[280px]" />
+    </section>
+  );
+}
+
+function DailyForecastSkeleton() {
+  return (
+    <section className="md:col-span-12">
+      <h2>7-Day Forecast</h2>
+      <div className="mt-3 space-y-4">
+        {Array.from({ length: 7 }, (_, i) => (
+          <Skeleton key={i} className="h-5 w-full" />
+        ))}
+      </div>
+    </section>
   );
 }

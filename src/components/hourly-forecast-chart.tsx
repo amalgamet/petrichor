@@ -16,27 +16,28 @@ import {
 import { useUnit } from '@/components/unit-toggle';
 import { formatTemperature } from '@/lib/utils';
 import {
-  type HourlyChartPoint,
+  toHourlyChartData,
   hourlyChartConfig,
   convertTemperature,
 } from '@/lib/forecast-charts';
+import type { ForecastPeriod } from '@/lib/types';
 
 interface HourlyForecastChartProps {
-  data: HourlyChartPoint[];
+  periods: ForecastPeriod[];
 }
 
-export function HourlyForecastChart({ data }: HourlyForecastChartProps) {
+export function HourlyForecastChart({ periods }: HourlyForecastChartProps) {
   const { unit } = useUnit();
 
-  const chartData = data.map((point) => ({
+  const chartData = toHourlyChartData(periods).map((point) => ({
     ...point,
     temperature: convertTemperature(point.temperature, unit),
   }));
 
   return (
-    <ChartContainer config={hourlyChartConfig} className="h-[200px] w-full">
+    <ChartContainer config={hourlyChartConfig} className="h-[200px] w-full sm:h-[280px]">
       <ComposedChart data={chartData} accessibilityLayer>
-        <CartesianGrid vertical={false} strokeDasharray="3 3" />
+        <CartesianGrid vertical={false} strokeDasharray="2 4" />
         <XAxis
           dataKey="time"
           tickLine={false}

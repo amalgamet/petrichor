@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { getCurrentConditions } from '@/lib/weather-api';
 import {
   degreesToCompass,
@@ -7,7 +6,7 @@ import {
   pascalsToInHg,
 } from '@/lib/utils';
 import { Temperature } from '@/components/temperature';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getWeatherIcon } from '@/lib/weather-icons';
 
 interface CurrentConditionsProps {
   stationsUrl: string;
@@ -24,36 +23,27 @@ export async function CurrentConditions({
   const visMiles = metersToMiles(conditions.visibilityM);
   const pressureInHg = pascalsToInHg(conditions.pressurePa);
 
+  const Icon = getWeatherIcon(conditions.description);
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span>Current Conditions</span>
-          <span className="text-sm font-normal text-muted-foreground">
-            {conditions.stationName}
-          </span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex items-center gap-6">
-          <Image
-            src={conditions.icon}
-            alt={conditions.description}
-            width={80}
-            height={80}
-            className="shrink-0"
-          />
-          <div>
-            <Temperature
-              celsius={conditions.temperatureC}
-              className="text-5xl font-bold"
-            />
-            <p className="mt-1 text-lg text-muted-foreground">
-              {conditions.description}
-            </p>
-          </div>
-        </div>
-        <div className="mt-6 grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
+    <div className="md:col-span-5 space-y-6">
+      <section>
+        <Icon size={20} aria-hidden className="text-muted-foreground" />
+        <Temperature
+          celsius={conditions.temperatureC}
+          className="mt-1 text-8xl font-extrabold tracking-tighter sm:text-9xl"
+        />
+        <p className="mt-1 text-muted-foreground">
+          {conditions.description}
+        </p>
+        <p className="mt-2 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+          {conditions.stationName}
+        </p>
+      </section>
+      <div className="h-px bg-border" />
+      <section>
+        <h2>Conditions</h2>
+        <div className="mt-3 grid grid-cols-2 gap-4 text-sm tabular-nums sm:grid-cols-3">
           {conditions.humidity !== null && (
             <Detail
               label="Humidity"
@@ -75,7 +65,10 @@ export async function CurrentConditions({
             </div>
           )}
           {visMiles !== null && (
-            <Detail label="Visibility" value={`${visMiles.toFixed(1)} mi`} />
+            <Detail
+              label="Visibility"
+              value={`${visMiles.toFixed(1)} mi`}
+            />
           )}
           {pressureInHg !== null && (
             <Detail
@@ -100,8 +93,8 @@ export async function CurrentConditions({
             </div>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </section>
+    </div>
   );
 }
 

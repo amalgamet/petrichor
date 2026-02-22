@@ -23,41 +23,6 @@ export function toHourlyChartData(
   }));
 }
 
-// --- Daily chart ---
-
-export interface DailyChartPoint {
-  day: string;
-  high: number | null;
-  low: number | null;
-  precip: number;
-}
-
-export function toDailyChartData(periods: ForecastPeriod[]): DailyChartPoint[] {
-  const days: DailyChartPoint[] = [];
-
-  for (let i = 0; i < periods.length; i++) {
-    const period = periods[i];
-    if (!period.isDaytime) continue;
-
-    const next = periods[i + 1];
-    const hasNight = next && !next.isDaytime;
-
-    days.push({
-      day: new Date(period.startTime).toLocaleDateString('en-US', {
-        weekday: 'short',
-      }),
-      high: period.temperature,
-      low: hasNight ? next.temperature : null,
-      precip: Math.max(
-        period.probabilityOfPrecipitation.value ?? 0,
-        hasNight ? (next.probabilityOfPrecipitation.value ?? 0) : 0,
-      ),
-    });
-  }
-
-  return days;
-}
-
 // --- Chart configs ---
 
 export const hourlyChartConfig = {
@@ -68,21 +33,6 @@ export const hourlyChartConfig = {
   precip: {
     label: 'Precipitation',
     color: 'var(--chart-2)',
-  },
-} satisfies ChartConfig;
-
-export const dailyChartConfig = {
-  high: {
-    label: 'High',
-    color: 'var(--chart-1)',
-  },
-  low: {
-    label: 'Low',
-    color: 'var(--chart-2)',
-  },
-  precip: {
-    label: 'Precipitation',
-    color: 'var(--chart-3)',
   },
 } satisfies ChartConfig;
 

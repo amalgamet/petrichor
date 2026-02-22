@@ -19,22 +19,34 @@ export async function GET(request: NextRequest) {
   url.searchParams.set('limit', '5');
   url.searchParams.set('countrycodes', 'us');
 
-  const res = await fetch(url.toString(), {
-    headers: {
-      'User-Agent': 'petrichor/1.0',
-    },
-  });
+  try {
+    const res = await fetch(url.toString(), {
+      headers: {
+        'User-Agent': 'petrichor/1.0',
+      },
+    });
 
-  if (!res.ok) {
-    return NextResponse.json({ error: res.statusText }, { status: res.status });
+    if (!res.ok) {
+      console.error(`Nominatim returned ${res.status} for query: ${q}`);
+      return NextResponse.json(
+        { error: 'Geocoding service error' },
+        { status: 502 },
+      );
+    }
+
+    const raw: NominatimResult[] = await res.json();
+    const results: GeocodingResult[] = raw.map((r) => ({
+      lat: r.lat,
+      lon: r.lon,
+      displayName: r.display_name,
+    }));
+
+    return NextResponse.json(results);
+  } catch (err) {
+    console.error('Geocoding request failed:', err);
+    return NextResponse.json(
+      { error: 'Geocoding service unavailable' },
+      { status: 502 },
+    );
   }
-
-  const raw: NominatimResult[] = await res.json();
-  const results: GeocodingResult[] = raw.map((r) => ({
-    lat: r.lat,
-    lon: r.lon,
-    displayName: r.display_name,
-  }));
-
-  return NextResponse.json(results);
 }
