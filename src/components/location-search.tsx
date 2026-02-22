@@ -14,6 +14,7 @@ export function LocationSearch() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [error, setError] = useState<string | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export function LocationSearch() {
     }
     setLoading(true);
     try {
+      setError(null);
       const res = await fetch(`/api/geocode?q=${encodeURIComponent(q.trim())}`);
       if (!res.ok) throw new Error('Geocode failed');
       const data: GeocodingResult[] = await res.json();
@@ -37,9 +39,10 @@ export function LocationSearch() {
       setOpen(data.length > 0);
       setActiveIndex(-1);
     } catch (err) {
-      console.error('Geocode search failed:', err);
+      console.error('Location search failed:', err);
       setResults([]);
       setOpen(false);
+      setError('Search failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -128,6 +131,11 @@ export function LocationSearch() {
           </li>
         ))}
       </ul>
+      {error && (
+        <p role="alert" className="mt-1 text-sm text-destructive">
+          {error}
+        </p>
+      )}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {open && results.length > 0
           ? `${results.length} result${results.length === 1 ? '' : 's'} found`

@@ -62,7 +62,7 @@ export function calcTempRange(days: DayForecast[]): {
   );
 
   if (temps.length === 0) {
-    return { weekMin: 0, weekMax: 0 };
+    throw new Error('No temperature data available in forecast');
   }
 
   return {

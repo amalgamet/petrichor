@@ -84,8 +84,8 @@ describe('getWeatherIcon', () => {
     expect(getWeatherIcon('HEAVY SNOW')).toBe(Snowflake);
   });
 
-  it('prioritizes more specific matches over generic ones', () => {
-    // "Rain And Snow" contains both keywords; rain is matched first per priority order
+  it('checks rain before snow in priority order', () => {
+    // "Rain And Snow" contains both keywords; rain is matched first
     expect(getWeatherIcon('Rain And Snow')).toBe(CloudRain);
   });
 });

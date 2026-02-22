@@ -273,16 +273,16 @@ describe('calcTempRange', () => {
     expect(calcTempRange(days)).toEqual({ weekMin: 40, weekMax: 40 });
   });
 
-  it('returns zeros for an empty array', () => {
-    expect(calcTempRange([])).toEqual({ weekMin: 0, weekMax: 0 });
+  it('throws when no temperature data is available', () => {
+    expect(() => calcTempRange([])).toThrow('No temperature data available');
   });
 
-  it('returns zeros when all temperatures are null', () => {
+  it('throws when all temperatures are null', () => {
     const days = [
-      { dayName: 'Tonight', date: '2026-02-22', highTempF: null, lowTempF: null, shortForecast: '', precipChance: null },
+      { dayName: 'Mon', date: '2026-02-23', highTemp: null, lowTemp: null, shortForecast: '', precipChance: null },
     ];
 
-    expect(calcTempRange(days)).toEqual({ weekMin: 0, weekMax: 0 });
+    expect(() => calcTempRange(days)).toThrow('No temperature data available');
   });
 });
 
