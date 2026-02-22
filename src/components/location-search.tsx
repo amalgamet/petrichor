@@ -36,7 +36,8 @@ export function LocationSearch() {
       setResults(data);
       setOpen(data.length > 0);
       setActiveIndex(-1);
-    } catch {
+    } catch (err) {
+      console.error('Geocode search failed:', err);
       setResults([]);
       setOpen(false);
     } finally {

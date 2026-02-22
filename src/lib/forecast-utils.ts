@@ -42,8 +42,8 @@ export function pairForecastDays(periods: ForecastPeriod[]): DayForecast[] {
     result.push({
       dayName,
       date,
-      highTemp: day?.temperature ?? null,
-      lowTemp: night?.temperature ?? null,
+      highTempF: day?.temperature ?? null,
+      lowTempF: night?.temperature ?? null,
       shortForecast: day?.shortForecast ?? night?.shortForecast ?? '',
       precipChance: precipValues.length > 0 ? Math.max(...precipValues) : null,
     });
@@ -52,14 +52,18 @@ export function pairForecastDays(periods: ForecastPeriod[]): DayForecast[] {
   return result;
 }
 
-/** Returns the overall min and max temperatures across a week of forecasts. */
+/** Returns the overall min and max temperatures across all forecast days. */
 export function calcTempRange(days: DayForecast[]): {
   weekMin: number;
   weekMax: number;
 } {
   const temps = days.flatMap((d) =>
-    [d.highTemp, d.lowTemp].filter((t): t is number => t !== null),
+    [d.highTempF, d.lowTempF].filter((t): t is number => t !== null),
   );
+
+  if (temps.length === 0) {
+    return { weekMin: 0, weekMax: 0 };
+  }
 
   return {
     weekMin: Math.min(...temps),
@@ -79,8 +83,8 @@ export function tempRangeBar(
     return { leftPct: 0, widthPct: 100 };
   }
 
-  const low = day.lowTemp ?? day.highTemp ?? weekMin;
-  const high = day.highTemp ?? day.lowTemp ?? weekMax;
+  const low = day.lowTempF ?? day.highTempF ?? weekMin;
+  const high = day.highTempF ?? day.lowTempF ?? weekMax;
 
   return {
     leftPct: ((low - weekMin) / span) * 100,

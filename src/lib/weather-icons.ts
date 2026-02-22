@@ -13,7 +13,7 @@ import {
 
 /**
  * Maps an NWS shortForecast string to a Lucide weather icon.
- * Keywords are checked in priority order (most specific first).
+ * Keywords are checked in priority order (most severe first).
  */
 export function getWeatherIcon(
   shortForecast: string,

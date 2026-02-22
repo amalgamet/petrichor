@@ -85,9 +85,7 @@ describe('getWeatherIcon', () => {
   });
 
   it('prioritizes more specific matches over generic ones', () => {
-    // "Rain And Snow" should match rain before snow (rain is checked before snow? No, snow is checked first)
-    // Actually per the plan: thunder > snow > sleet > rain > fog > wind > cloud > clear
-    // "Rain And Snow" has both "rain" and "snow" — snow is checked first
+    // "Rain And Snow" contains both keywords; rain is matched first per priority order
     expect(getWeatherIcon('Rain And Snow')).toBe(CloudRain);
   });
 });

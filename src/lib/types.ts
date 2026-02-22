@@ -129,8 +129,8 @@ export interface GeocodingResult {
 export interface DayForecast {
   dayName: string;
   date: string;
-  highTemp: number | null;
-  lowTemp: number | null;
+  highTempF: number | null;
+  lowTempF: number | null;
   shortForecast: string;
   precipChance: number | null;
 }

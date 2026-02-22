@@ -67,15 +67,15 @@ function DayRow({
         />
       </div>
       <span className="w-10 shrink-0 text-right tabular-nums text-muted-foreground">
-        {day.lowTemp !== null ? (
-          <ForecastTemperature fahrenheit={day.lowTemp} />
+        {day.lowTempF !== null ? (
+          <ForecastTemperature fahrenheit={day.lowTempF} />
         ) : (
           '--'
         )}
       </span>
       <span className="w-10 shrink-0 text-right font-medium tabular-nums">
-        {day.highTemp !== null ? (
-          <ForecastTemperature fahrenheit={day.highTemp} />
+        {day.highTempF !== null ? (
+          <ForecastTemperature fahrenheit={day.highTempF} />
         ) : (
           '--'
         )}

@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { UserButton } from '@clerk/nextjs';
+import { UserButton } from '@/components/user-button';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -33,7 +33,8 @@ export async function generateMetadata({
       title: `${point.city}, ${point.state} Weather`,
       description: `Current weather conditions and forecast for ${point.city}, ${point.state}`,
     };
-  } catch {
+  } catch (err) {
+    console.error('Failed to generate weather page metadata:', err);
     return { title: 'Weather' };
   }
 }
