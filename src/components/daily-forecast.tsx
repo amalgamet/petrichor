@@ -1,6 +1,10 @@
 import { getForecast } from '@/lib/weather-api';
 import { ForecastTemperature } from '@/components/temperature';
-import { pairForecastDays, calcTempRange, tempRangeBar } from '@/lib/forecast-utils';
+import {
+  pairForecastDays,
+  calcTempRange,
+  tempRangeBar,
+} from '@/lib/forecast-utils';
 import { WeatherIcon } from '@/lib/weather-icons';
 import type { DayForecast } from '@/lib/types';
 
@@ -48,7 +52,13 @@ function DayRow({
       <span className="w-16 shrink-0 text-xs font-medium tracking-widest text-muted-foreground uppercase">
         {label}
       </span>
-      <WeatherIcon shortForecast={day.shortForecast} isDaytime={!isTonight} size={16} aria-hidden className="shrink-0 text-muted-foreground" />
+      <WeatherIcon
+        shortForecast={day.shortForecast}
+        isDaytime={!isTonight}
+        size={16}
+        aria-hidden
+        className="shrink-0 text-muted-foreground"
+      />
       <span className="hidden min-w-0 flex-1 truncate text-muted-foreground sm:block">
         {day.shortForecast}
       </span>

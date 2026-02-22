@@ -40,7 +40,6 @@ export default function RootLayout({
 }>) {
   preconnect('https://api.weather.gov');
 
-
   return (
     <ClerkProvider
       appearance={{

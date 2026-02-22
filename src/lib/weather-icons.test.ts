@@ -20,7 +20,9 @@ describe('getWeatherIcon', () => {
 
   it('returns Snowflake for snow', () => {
     expect(getWeatherIcon('Snow')).toBe(Snowflake);
-    expect(getWeatherIcon('Heavy Snow And Areas Of Blowing Snow')).toBe(Snowflake);
+    expect(getWeatherIcon('Heavy Snow And Areas Of Blowing Snow')).toBe(
+      Snowflake,
+    );
     expect(getWeatherIcon('Chance Light Snow')).toBe(Snowflake);
     expect(getWeatherIcon('Blizzard')).toBe(Snowflake);
   });

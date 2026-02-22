@@ -35,7 +35,10 @@ export function HourlyForecastChart({ periods }: HourlyForecastChartProps) {
   }));
 
   return (
-    <ChartContainer config={hourlyChartConfig} className="h-[200px] w-full sm:h-[280px]">
+    <ChartContainer
+      config={hourlyChartConfig}
+      className="h-[200px] w-full sm:h-[280px]"
+    >
       <ComposedChart data={chartData} accessibilityLayer>
         <CartesianGrid vertical={false} strokeDasharray="2 4" />
         <XAxis
