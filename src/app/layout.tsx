@@ -1,5 +1,6 @@
 import { preconnect } from 'react-dom';
 import { ClerkProvider } from '@clerk/nextjs';
+import { shadcn } from '@clerk/themes';
 import type { Metadata, Viewport } from 'next';
 import { DM_Sans, Instrument_Sans } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
@@ -43,8 +44,11 @@ export default function RootLayout({
   return (
     <ClerkProvider
       appearance={{
+        theme: shadcn,
         cssLayerName: 'clerk',
-        variables: { colorPrimary: '#8d6850' },
+        elements: {
+          userButtonAvatarBox: '[&_img]:sepia',
+        },
       }}
     >
       <html lang="en" suppressHydrationWarning>
